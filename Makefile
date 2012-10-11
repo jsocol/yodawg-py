@@ -1,9 +1,9 @@
 CFLAGS=-Wall -g -Ideps/yodawg/src -I/usr/include/python2.7
 
-all: yodawgmodule.o
+all: dawgs.o
 
-yodawgmodule.o: yodawg.o
-	$(CC) $(CFLAGS) -c src/yodawgmodule.c -o build/yodawgmodule.o
+dawgs.o: yodawg.o
+	$(CC) $(CFLAGS) -c src/dawgs.c -o build/dawgs.o
 
 yodawg.o:
 	$(CC) $(CFLAGS) -c deps/yodawg/src/yodawg.c -o build/yodawg.o

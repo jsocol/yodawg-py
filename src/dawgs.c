@@ -80,10 +80,12 @@ PyObject *Dawg_init(PyObject *self, PyObject *args)
 
 PyObject *Dawg_add(PyObject *self, PyObject *args)
 {
+    return Py_None;
 }
 
 PyObject *Dawg_complete(PyObject *self, PyObject *args)
 {
+    return Py_None;
 }
 
 static PyMethodDef DawgMethods[] = {
@@ -93,17 +95,19 @@ static PyMethodDef DawgMethods[] = {
         "Add a bytestring to the DAWG."},
     {"complete", Dawg_complete, METH_VARARGS,
         "Get a set of possible complete strings given a prefix."},
+    {NULL, NULL, 0, NULL}
 };
 
-static PyMethodDef ModuleMethods[] = { {NULL} };
+//static PyMethodDef ModuleMethods[] = { {NULL} };
 
 PyMODINIT_FUNC initdawgs()
 {
     PyMethodDef *def;
 
     /* Create the module and class. */
-    PyObject *module = Py_InitModule3("yodawg", ModuleMethods,
+    PyObject *module = Py_InitModule3("yodawg", NULL,
         "Efficiently store Directed Acyclic Word Graphs.");
+    if(module == NULL) return;
     PyObject *moduleDict = PyModule_GetDict(module);
     PyObject *classDict = PyDict_New();
     PyObject *className = PyString_FromString("Dawg");
