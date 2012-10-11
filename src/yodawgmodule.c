@@ -10,38 +10,10 @@ typedef struct {
     struct yonode *dawg;
 } dawg;
 
-PyObject *dawg_NEW()
-{
-    dawg *object = NULL;
-    object = PyObject_NEW(dawg, &dawg_Type);
-    if(object != NULL)
-        object->dawg = yodawg_create();
-    return (PyObject *)object;
-}
 
-void dawg_dealloc(PyObject *self)
-{
-    yodawg_free_dawg(self->dawg);
-    PyMem_DEL(self);
-}
-
-PyObject *dawg_new(PyObject *self, PyObject, *args)
-{
-    PyObject *object = NULL;
-    object = dawg_NEW();
-    return object;
-}
-
-int dawg_print(PyObject *self, FILE *fp, int flags)
-{
-    fprintf(fp, "<dawg>");
-    return 0;
-}
-
-PyObject *dawg_repr(PyObject *self)
-{
-    return PyString_FromString("<dawg>");
-}
+void dawg_dealloc(PyObject *self);
+int dawg_print(PyObject *self, FILE *fp, int flags);
+PyObject *dawg_repr(PyObject *self);
 
 PyTypeObject dawg_Type = {
     PyObject_HEAD_INIT(&PyType_Type)
@@ -64,12 +36,46 @@ PyTypeObject dawg_Type = {
 };
 
 
+PyObject *dawg_NEW()
+{
+    dawg *object = NULL;
+    object = PyObject_NEW(dawg, &dawg_Type);
+    if(object != NULL)
+        object->dawg = yodawg_create();
+    return (PyObject *)object;
+}
+
+void dawg_dealloc(PyObject *self)
+{
+    //yodawg_free_dawg((dawg *)(self)->dawg);
+    PyMem_DEL(self);
+}
+
+PyObject *dawg_new(PyObject *self, PyObject *args)
+{
+    PyObject *object = NULL;
+    object = dawg_NEW();
+    return object;
+}
+
+int dawg_print(PyObject *self, FILE *fp, int flags)
+{
+    fprintf(fp, "<dawg>");
+    return 0;
+}
+
+PyObject *dawg_repr(PyObject *self)
+{
+    return PyString_FromString("<dawg>");
+}
+
+
 PyObject *Dawg_init(PyObject *self, PyObject *args)
 {
     struct yonode *dawg;
     dawg = yodawg_create();
     Py_INCREF(Py_None);
-    return PyNone;
+    return Py_None;
 }
 
 PyObject *Dawg_add(PyObject *self, PyObject *args)
@@ -91,7 +97,7 @@ static PyMethodDef DawgMethods[] = {
 
 static PyMethodDef ModuleMethods[] = { {NULL} };
 
-void inityodawg()
+PyMODINIT_FUNC initdawgs()
 {
     PyMethodDef *def;
 
@@ -108,7 +114,7 @@ void inityodawg()
     Py_DECREF(dawgClass);
 
     /* Add methods to class */
-    for(def = FooMethods; def->ml_name != NULL; def++) {
+    for(def = DawgMethods; def->ml_name != NULL; def++) {
         PyObject *func = PyCFunction_New(def, NULL);
         PyObject *method = PyMethod_New(func, NULL, dawgClass);
         PyDict_SetItemString(classDict, def->ml_name, method);
