@@ -74,6 +74,7 @@ PyObject *Dawg_init(PyObject *self, PyObject *args)
 {
     struct yonode *dawg;
     dawg = yodawg_create();
+    yodawg_free_dawg(dawg);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -98,14 +99,12 @@ static PyMethodDef DawgMethods[] = {
     {NULL, NULL, 0, NULL}
 };
 
-//static PyMethodDef ModuleMethods[] = { {NULL} };
-
-PyMODINIT_FUNC initdawgs()
+PyMODINIT_FUNC init_dawg()
 {
     PyMethodDef *def;
 
     /* Create the module and class. */
-    PyObject *module = Py_InitModule3("yodawg", NULL,
+    PyObject *module = Py_InitModule3("yodawg._dawg", NULL,
         "Efficiently store Directed Acyclic Word Graphs.");
     if(module == NULL) return;
     PyObject *moduleDict = PyModule_GetDict(module);

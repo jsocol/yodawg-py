@@ -8,7 +8,7 @@ dawgs.o: yodawg.o
 yodawg.o:
 	$(CC) $(CFLAGS) -c deps/yodawg/src/yodawg.c -o build/yodawg.o
 
-install: clean
+install: uninstall clean
 	python setup.py clean
 	python setup.py build
 	python setup.py install
@@ -16,5 +16,9 @@ install: clean
 uninstall:
 	pip uninstall -yq yodawg
 
+upload:
+	python setup.py sdist upload
+
 clean:
 	rm -rf build/*
+	rm -rf dist/*

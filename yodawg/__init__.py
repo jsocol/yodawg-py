@@ -1,5 +1,5 @@
 try:
-    from yodawg.dawgs import Dawg
+    from yodawg._dawg import Dawg
 except ImportError:
     Dawg = None
 

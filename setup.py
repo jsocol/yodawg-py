@@ -1,8 +1,8 @@
 from distutils.core import setup, Extension
 
-module = Extension('yodawg.dawgs',
+module = Extension('yodawg._dawg',
     include_dirs=['deps/yodawg/src'],
-    sources=['deps/yodawg/src/yodawg.c', 'src/dawgs.c'],
+    sources=['deps/yodawg/src/yodawg.c', 'src/_dawg.c'],
 )
 
 import yodawg
